@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple URL Shortener</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+        form { margin: 20px 0; }
+        input[type="url"] { width: 70%; padding: 8px; }
+        button { padding: 8px 16px; }
+        .result { background: #f5f5f5; padding: 15px; margin: 15px 0; border-radius: 4px; }
+        .error { color: #c00; }
+        .url-list { margin-top: 30px; }
+        .url-item { margin: 5px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+    <h1>Simple URL Shortener</h1>
+    
+    <form method="POST" action="/shorten">
+        <input type="url" name="url" placeholder="https://example.com" required>
+        <button type="submit">Shorten</button>
+    </form>
+
+    {{if .ShortURL}}
+    <div class="result">
+        <strong>Short URL created:</strong><br>
+        <a href="{{.ShortURL}}" target="_blank">{{.ShortURL}}</a>
+    </div>
+    {{end}}
+
+    {{if .Error}}
+    <div class="error">{{.Error}}</div>
+    {{end}}
+
+    {{if .URLs}}
+    <div class="url-list">
+        <h3>Recently shortened URLs:</h3>
+        {{range .URLs}}
+        <div class="url-item">
+            <a href="/{{.ShortCode}}" target="_blank">/{{.ShortCode}}</a> → {{.OriginalURL}}
+        </div>
+        {{end}}
+    </div>
+    {{end}}
+</body>
+</html>
